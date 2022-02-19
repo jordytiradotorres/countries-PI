@@ -1,0 +1,23 @@
+:root {
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: peru;
+  font-family: $font-nunito-sans;
+}
