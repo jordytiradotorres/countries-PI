@@ -16,8 +16,12 @@ img {
   object-fit: cover;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   overflow-x: hidden;
-  background-color: peru;
   font-family: $font-nunito-sans;
+  background-color: $very-dark-blue;
 }

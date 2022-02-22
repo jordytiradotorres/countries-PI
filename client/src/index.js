@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/App.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import CountriesApp from './CountriesApp';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CountriesApp />
   </React.StrictMode>,
   document.getElementById('root')
 );

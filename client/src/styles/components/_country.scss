@@ -1,0 +1,40 @@
+.country {
+  padding: 0 5rem;
+  background-color: $very-dark-blue;
+  min-height: 100vh;
+
+  button {
+    @include btn();
+  }
+
+  &__description {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+
+    @include mq(medium) {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 7rem;
+    }
+  }
+
+  &__body {
+    h3 {
+      color: $white;
+      font-size: 2rem;
+      margin: 1.5rem 0;
+    }
+    p {
+      margin: 0.7rem 0;
+      color: lighten($dark-gray, 20);
+      font-weight: 300;
+      font-size: 0.9rem;
+
+      span {
+        color: darken($very-light-gray, 10);
+        font-weight: 600;
+      }
+    }
+  }
+}

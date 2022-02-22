@@ -1,0 +1,17 @@
+@mixin btn() {
+  background-color: lighten($very-dark-blue, 8);
+  color: $very-light-gray;
+  border: none;
+  padding: 0.5rem 2rem;
+  margin: 5rem 0;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 0.2rem $very-dark-blue;
+  font-family: $font-nunito-sans;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+
+  &:hover {
+    background-color: lighten($very-dark-blue, 15);
+  }
+}

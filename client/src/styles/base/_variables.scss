@@ -5,7 +5,7 @@ $dark-blue: hsl(209, 23%, 22%);
 // para backgrounds
 $very-dark-blue: hsl(207, 26%, 17%);
 // texto para light mode
-$very-dark-blue: hsl(200, 15%, 8%);
+$text-dark-blue: hsl(200, 15%, 8%);
 // light mode input
 $dark-gray: hsl(0, 0%, 52%);
 // (Light Mode Background)
@@ -14,3 +14,10 @@ $very-light-gray: hsl(0, 0%, 98%);
 $white: hsl(0, 0%, 100%);
 
 $font-nunito-sans: 'Nunito Sans', sans-serif;
+
+$breakpoints: (
+  small: 375px,
+  medium: 768px,
+  large: 1024px,
+  x-large: 1440px,
+);

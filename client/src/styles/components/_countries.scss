@@ -1,0 +1,21 @@
+.countries {
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.btn-previous,
+.btn-next {
+  @include btn();
+  width: 7rem;
+  text-align: center;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-next {
+  margin-right: 0;
+}
