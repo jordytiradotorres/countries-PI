@@ -1,10 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import CardDetails from './CardDetails';
 
 const Card = ({ homeCountries }) => {
-  return homeCountries.map((country) => {
-    return <CardDetails key={country.id} country={country} />;
-  });
+  const { msgError } = useSelector((state) => state.ui);
+
+  return (
+    <>
+      {msgError ? (
+        <h2>{msgError.countryNotFound}</h2>
+      ) : (
+        homeCountries?.map((country) => (
+          <CardDetails key={country.id} country={country} />
+        ))
+      )}
+    </>
+  );
 };
 
 export default Card;

@@ -1,6 +1,6 @@
 import { types } from '../types/types';
 
-export const serError = (err) => {
+export const setError = (err) => {
   return {
     type: types.uiSetError,
     payload: err,

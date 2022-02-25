@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCountryId } from '../actions/countries';
+import ActivityDetails from './ActivityDetails';
 import { Loader } from './Loader';
 
 const CardId = () => {
@@ -49,9 +50,23 @@ const CardId = () => {
           <p>
             <span>Population: </span> {countryId.population}
           </p>
-          <p>
-            <span>Activities: </span> {countryId.activities}
-          </p>
+
+          {countryId.activities !== undefined &&
+          countryId.activities.length === 0 ? (
+            <p>
+              <span>Activities: </span> country still without activities
+            </p>
+          ) : (
+            <>
+              <p>
+                <span>Activities: </span>
+              </p>
+              {countryId.activities !== undefined &&
+                countryId.activities.map((activity) => (
+                  <ActivityDetails key={activity.id} activity={activity} />
+                ))}
+            </>
+          )}
         </div>
       </div>
     </div>

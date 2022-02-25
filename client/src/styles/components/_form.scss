@@ -1,0 +1,70 @@
+.container-forms {
+  @include mq(medium) {
+    display: flex;
+    align-items: center;
+  }
+
+  form {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  input,
+  select,
+  .btn-new-activity {
+    border: none;
+    background-color: lighten($very-dark-blue, 8);
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem 0 0 0.2rem;
+    box-shadow: 1px 1px 5px $very-dark-blue;
+    outline: none;
+    height: 2rem;
+    color: $white;
+  }
+
+  select#continent,
+  select#activities {
+    border-radius: 0.2rem;
+    background-color: lighten($very-dark-blue, 15);
+
+    @include mq(medium) {
+      margin-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    option {
+      background-color: lighten($very-dark-blue, 8);
+    }
+  }
+
+  .btn-new-activity {
+    margin: 1rem 0 1.5rem 0;
+    border-radius: 0.2rem;
+    background-color: lighten($very-dark-blue, 15);
+    cursor: pointer;
+
+    @include mq(medium) {
+      margin-left: 1.2rem;
+    }
+  }
+}
+
+.formCountry {
+  display: flex;
+  align-items: center;
+
+  &__searchCountry {
+    display: inline-block;
+  }
+
+  &__buttonCountry {
+    @include btn();
+    background-color: lighten($very-dark-blue, 15);
+    padding: 0.5rem 1rem;
+    margin: 0;
+    box-shadow: 1px 1px 5px $very-dark-blue;
+    border-radius: 0 0.2rem 0.2rem 0;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+}

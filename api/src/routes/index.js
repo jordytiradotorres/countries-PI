@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 
 const axios = require('axios');
 
+let id = 1;
+
 //Traemos las tablas de db
 const { Country, Activity, country_activity } = require('../db.js');
 
@@ -44,8 +46,32 @@ router.get('/countries', async (req, res) => {
 
   // Guardo el name pasado por query
   const queryName = req.query.name;
-
+  const queryContinent = req.query.continent;
   const queryOrder = req.query.order;
+  const queryActivity = req.query.filter;
+
+  function FilterCountries(filter) {
+    let countries = [];
+    return Activity.findOne({
+      where: { name: filter },
+      include: [
+        {
+          model: Country,
+        },
+      ],
+    }).then((response) => {
+      response.countries.forEach((co) =>
+        countries.push({
+          name: co.name,
+          flags: co.flags,
+          continent: co.continent,
+          id: co.id,
+          population: co.population,
+        })
+      );
+      return countries;
+    });
+  }
 
   try {
     // Si la db esta llena no se hace nada
@@ -76,7 +102,24 @@ router.get('/countries', async (req, res) => {
     });
     countryName.length
       ? res.status(200).send(countryName)
-      : res.status(404).send('No se encontro el pais');
+      : res.status(500).send('the country was not found');
+  } else if (queryContinent) {
+    let countryContinent = await Country.findAll({
+      where: {
+        continent: {
+          // Operador que busca coincidencias y no es case sensitive
+          //Si solo pongo queryName me toma la busqueda exacta
+          [Sequelize.Op.iLike]: `%${queryContinent}%`,
+        },
+      },
+    });
+    countryContinent.length
+      ? res.status(200).send(countryContinent)
+      : res.status(500).send('no hay paises en ese continente');
+  } else if (queryActivity) {
+    FilterCountries(queryActivity)
+      .then((countries) => res.json(countries))
+      .catch((err) => next(err));
   } else if (queryOrder) {
     try {
       let country = await Country.findAll({
@@ -119,41 +162,44 @@ router.get('/countries/:id', async (req, res) => {
   res.status(200).send(countryById);
 });
 
-router.get('/activity', async (req, res) => {
-  try {
-    let activities = await Activity.findAll();
-    res.status(200).send(activities);
-  } catch (errors) {
-    res.status(500).send('Error');
-  }
+// activities
+function GetActivities() {
+  let activities = [];
+  return Activity.findAll().then((response) => {
+    response.forEach((ac) => activities.push(ac.name));
+    return activities;
+  });
+}
+
+router.get('/activity', (req, res, next) => {
+  GetActivities()
+    .then((activities) => res.json(activities))
+    .catch((err) => next(err));
 });
+// router.get('/activity', async (req, res) => {
+//   try {
+//     let activities = await Activity.findAll();
+//     res.status(200).send(activities);
+//   } catch (error) {
+//     res.status(500).send('Error');
+//   }
+// });
 
-router.post('/activity', async (req, res) => {
-  try {
-    let { name, difficulty, duration, season, countries } = req.body;
-    // Se crea la actividad
-    let newActivity = await Activity.create({
-      name,
-      difficulty,
-      duration,
-      season,
-    });
+function AddNewActivity(name, difficulty, duration, season, countryId) {
+  return Activity.create({
+    id: id++,
+    name,
+    difficulty,
+    duration,
+    season,
+  }).then((result) => result.addCountries(countryId));
+}
 
-    // Reviso el array de paises para ver en cual se debe crear la actividad
-    countries.forEach(async (country) => {
-      let activityCountry = await Country.findOne({
-        where: {
-          name: country,
-        },
-      });
-      await newActivity.addCountry(activityCountry);
-    });
-
-    res.status(200).send('La actividad se creo exitosamente');
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('No se pudo crear la actividad');
-  }
+router.post('/activity', (req, res, next) => {
+  const { name, difficulty, duration, season, countryId } = req.body;
+  AddNewActivity(name, difficulty, duration, season, countryId)
+    .then(() => res.json({ message: 'Activity created' }))
+    .catch((err) => next(err));
 });
 
 module.exports = router;

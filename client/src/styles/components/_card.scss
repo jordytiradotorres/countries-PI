@@ -1,10 +1,25 @@
 .grid-card {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
-  gap: 5rem;
-  padding: 2.5rem 5rem;
+  // grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
+  grid-template-columns: minmax(220px, 250px);
+  gap: 2rem;
   background-color: $very-dark-blue;
   justify-content: center;
+
+  @include mq(medium) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include mq(large) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include mq(x-large) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  > h2 {
+    color: $white;
+    width: max-content;
+  }
 }
 
 .card {
@@ -22,7 +37,7 @@
   }
 
   &__body {
-    padding: 1.5rem 1rem 3rem;
+    padding: 1.5rem 1rem 2rem;
     background-color: $dark-blue;
     border-radius: 0 0 0.5rem 0.5rem;
 
