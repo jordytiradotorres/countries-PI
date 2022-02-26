@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addActivity } from '../actions/activities';
+import { removeError, setError } from '../actions/ui';
 
 const Activity = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { activities } = useSelector((state) => state.activities);
+  const { msgError } = useSelector((state) => state.ui);
 
   console.log(activities);
 
@@ -39,21 +44,56 @@ const Activity = () => {
 
   const handleSendActivity = (e) => {
     e.preventDefault();
-    dispatch(
-      addActivity({
-        name,
-        difficulty,
-        duration,
-        season,
-        countryId: selectValue.values,
-      })
-    );
-    console.log('se envio');
+
+    if (isFormValue()) {
+      dispatch(
+        addActivity({
+          name,
+          difficulty,
+          duration,
+          season,
+          countryId: selectValue.values,
+        })
+      );
+      navigate('/countries');
+    }
+  };
+
+  const isFormValue = () => {
+    let nameWhitinCharactersSpecials = /[^a-zA-Z0-9 ]+$/gm;
+    if (name.trim().length < 3) {
+      dispatch(setError('Error: has to be at least 3 characters'));
+      return false;
+    } else if (nameWhitinCharactersSpecials.test(name)) {
+      dispatch(
+        setError('Error: the activity name must not have special characters')
+      );
+      return false;
+    } else if (difficulty.length === 0 || difficulty < 0 || difficulty > 5) {
+      dispatch(setError('Error: the range is between one and five'));
+      return false;
+    } else if (duration.length === 0 || duration <= 0) {
+      dispatch(setError('Error: duration must be greater than zero'));
+      return false;
+    } else if (season.length === 0) {
+      dispatch(setError('Error: select a season of the year'));
+      return false;
+    } else if (selectValue.values.length === 0) {
+      dispatch(
+        setError('Error: select at least one country for said activity')
+      );
+      return false;
+    }
+
+    dispatch(removeError());
+    return true;
   };
 
   return (
     <div className="activity">
       <h2 className="activity__title">Add New Activity</h2>
+
+      {msgError && <p className="error">{msgError}</p>}
 
       <form className="activity__form">
         <div>
@@ -79,7 +119,7 @@ const Activity = () => {
           />
         </div>
         <div>
-          <label>Duration: </label>
+          <label>Duration (hs): </label>
           <input
             type="number"
             min={1}

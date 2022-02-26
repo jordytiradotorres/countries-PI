@@ -14,27 +14,32 @@ export const countriesReducer = (state = initialState, action) => {
       return {
         ...state,
         allCountries: action.payload,
+        //
+        resultContinent: [],
       };
 
     case types.countriesGetCountryId:
       return {
         ...state,
         countryId: action.payload,
+        //
       };
 
     case types.countriesSearchCountry:
       return {
         ...state,
+        resultContinent: [],
         resultSearchCountries: action.payload,
       };
 
     case types.countriesGetContinent:
       return {
         ...state,
-        countryId: [],
-        resultSearchCountries: [],
-        allCountries: [],
         resultContinent: action.payload,
+        resultSearchCountries: [],
+        countriesWithActivities: [],
+        //
+        allCountries: [],
       };
 
     case types.countriesGetActivities:
@@ -45,6 +50,12 @@ export const countriesReducer = (state = initialState, action) => {
         resultSearchCountries: [],
       };
 
+    case types.countriesGetCountriesOrdered:
+      return {
+        ...state,
+        allCountries: action.payload,
+        countriesWithActivities: [],
+      };
     default:
       return state;
   }

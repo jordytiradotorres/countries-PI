@@ -36,7 +36,7 @@ const countriesApi = async () => {
   return countries;
 };
 
-router.get('/countries', async (req, res) => {
+router.get('/countries', async (req, res, next) => {
   // Se traen todos los paises desde la API a la DB para utilizarlos desde ahi
   // Se almacenan solo los datos necesarios para la ruta principal
   // Se obtiene un listado de los paises
@@ -47,8 +47,8 @@ router.get('/countries', async (req, res) => {
   // Guardo el name pasado por query
   const queryName = req.query.name;
   const queryContinent = req.query.continent;
-  const queryOrder = req.query.order;
   const queryActivity = req.query.filter;
+  const { param, order } = req.query;
 
   function FilterCountries(filter) {
     let countries = [];
@@ -61,6 +61,24 @@ router.get('/countries', async (req, res) => {
       ],
     }).then((response) => {
       response.countries.forEach((co) =>
+        countries.push({
+          name: co.name,
+          flags: co.flags,
+          continent: co.continent,
+          id: co.id,
+          population: co.population,
+        })
+      );
+      return countries;
+    });
+  }
+
+  function GetCountriesOrdered(order, param) {
+    let countries = [];
+    return Country.findAll({
+      order: [[param, order]],
+    }).then((response) => {
+      response.forEach((co) =>
         countries.push({
           name: co.name,
           flags: co.flags,
@@ -120,22 +138,10 @@ router.get('/countries', async (req, res) => {
     FilterCountries(queryActivity)
       .then((countries) => res.json(countries))
       .catch((err) => next(err));
-  } else if (queryOrder) {
-    try {
-      let country = await Country.findAll({
-        // Trae hasta 9 paises
-        // limit : 9,
-        // Paginado - desde donde empieza a contar
-        // offset: req.query.page,
-        order: [['population', queryOrder]],
-        include: {
-          model: Activity,
-        },
-      });
-      res.status(200).send(country);
-    } catch (error) {
-      res.status(500).send('Error');
-    }
+  } else if (param && order) {
+    GetCountriesOrdered(order, param)
+      .then((countries) => res.json(countries))
+      .catch((err) => next(err));
   } else {
     let full = await Country.findAll({
       include: {

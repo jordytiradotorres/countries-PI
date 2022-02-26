@@ -4,6 +4,7 @@ import {
   getContinent,
   getCountries,
   getCountriesActivities,
+  getCountriesOrdered,
   searchCountry,
 } from '../actions/countries';
 
@@ -22,12 +23,11 @@ const Countries = () => {
     countriesWithActivities,
   } = useSelector((state) => state.countries);
 
-  console.log('cwa', countriesWithActivities);
+  // console.log('cwa', countriesWithActivities);
   // const { activities } = useSelector((state) => state.activities);
 
   // console.log(allCountries);
   // console.log('search', resultSearchCountries);
-  // console.log('continent', resultContinent);
 
   const [currentPage, setCurrentPage] = useState(0);
   const [formValues, setFormValues] = useState({
@@ -39,22 +39,73 @@ const Countries = () => {
   const [selectActivity, setSelectActivity] = useState({
     activity: '',
   });
+  const [selectOrder, setSelectOrder] = useState({
+    order: '',
+  });
 
   const { country } = formValues;
   const { continent } = selectValue;
   const { activity } = selectActivity;
+  const { order } = selectOrder;
+
+  console.log('current page', currentPage);
 
   useEffect(() => {
     dispatch(getCountries());
+    setCurrentPage(0);
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getContinent(continent));
+    dispatch(getContinent(continent, ''));
+    setCurrentPage(0);
   }, [continent, dispatch]);
 
   useEffect(() => {
     dispatch(getCountriesActivities(activity));
+    setCurrentPage(0);
   }, [activity, dispatch]);
+
+  useEffect(() => {
+    setCurrentPage(0);
+    let op = order;
+    switch (op) {
+      case 'az name':
+        if (resultContinent.length > 0) {
+          console.log(resultContinent);
+          dispatch(getContinent(continent, order));
+        } else {
+          dispatch(getCountriesOrdered('ASC', 'name'));
+        }
+        break;
+      case 'za name':
+        if (resultContinent.length > 0) {
+          console.log(resultContinent);
+          dispatch(getContinent(continent, order));
+        } else {
+          dispatch(getCountriesOrdered('DESC', 'name'));
+        }
+        break;
+      case 'higher population':
+        if (resultContinent.length > 0) {
+          console.log(resultContinent);
+          dispatch(getContinent(continent, order));
+        } else {
+          dispatch(getCountriesOrdered('DESC', 'population'));
+        }
+        break;
+      case 'lower population':
+        if (resultContinent.length > 0) {
+          console.log(resultContinent);
+          dispatch(getContinent(continent, order));
+        } else {
+          dispatch(getCountriesOrdered('ASC', 'population'));
+        }
+        break;
+
+      default:
+        break;
+    }
+  }, [dispatch, order]);
 
   const handleChange = (e) => {
     setFormValues({
@@ -75,6 +126,12 @@ const Countries = () => {
     });
   };
 
+  const handleChangeOrder = (e) => {
+    setSelectOrder({
+      order: e.target.value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(searchCountry(country));
@@ -85,25 +142,25 @@ const Countries = () => {
     if (resultSearchCountries.length) {
       result = resultSearchCountries.slice(currentPage, currentPage + 9);
 
-      if (currentPage > 9) {
+      if (currentPage > 0) {
         result = resultSearchCountries.slice(currentPage, currentPage + 10);
       }
     } else if (resultContinent.length) {
       result = resultContinent.slice(currentPage, currentPage + 9);
 
-      if (currentPage > 9) {
+      if (currentPage > 0) {
         result = resultContinent.slice(currentPage, currentPage + 10);
       }
     } else if (countriesWithActivities.length) {
       result = countriesWithActivities.slice(currentPage, currentPage + 9);
 
-      if (currentPage > 9) {
+      if (currentPage > 0) {
         result = countriesWithActivities.slice(currentPage, currentPage + 10);
       }
     } else {
       result = allCountries.slice(currentPage, currentPage + 9);
 
-      if (currentPage > 9) {
+      if (currentPage > 0) {
         result = allCountries.slice(currentPage, currentPage + 10);
       }
     }
@@ -118,7 +175,9 @@ const Countries = () => {
   };
 
   const handleNext = () => {
-    if (currentPage < 240) {
+    if (allCountries.length > currentPage + 10) {
+      setCurrentPage(currentPage + 10);
+    } else if (resultContinent.length > currentPage + 10) {
       setCurrentPage(currentPage + 10);
     }
   };
@@ -133,6 +192,7 @@ const Countries = () => {
         handleChange={handleChange}
         handleChangeContinent={handleChangeContinent}
         handleChangeActivity={handleChangeActivity}
+        handleChangeOrder={handleChangeOrder}
       />
 
       <div className="grid-card">
@@ -140,12 +200,26 @@ const Countries = () => {
       </div>
 
       <div className="countries__buttons">
-        <button className="btn-previous" onClick={handlePrevious}>
-          Previous
-        </button>
-        <button className="btn-next" onClick={handleNext}>
+        {currentPage > 0 && (
+          <button className="btn-previous" onClick={handlePrevious}>
+            Previous
+          </button>
+        )}
+
+        {allCountries.length > currentPage + 10 && (
+          <button className="btn-next" onClick={handleNext}>
+            Next
+          </button>
+        )}
+        {resultContinent.length > 0 &&
+          resultContinent.length > currentPage + 10 && (
+            <button className="btn-next" onClick={handleNext}>
+              Next
+            </button>
+          )}
+        {/* <button className="btn-next" onClick={handleNext}>
           Next
-        </button>
+        </button> */}
       </div>
     </div>
   );

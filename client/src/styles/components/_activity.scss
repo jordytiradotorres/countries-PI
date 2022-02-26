@@ -76,4 +76,14 @@
       background-color: lighten($very-dark-blue, 25);
     }
   }
+
+  .error {
+    margin-bottom: 1rem;
+    color: tomato;
+    background-color: lighten($very-dark-blue, 8);
+    padding: 1rem 0;
+    width: 400px;
+    text-align: center;
+    border-radius: 0.2rem;
+  }
 }

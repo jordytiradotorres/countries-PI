@@ -9,6 +9,7 @@ const Form = ({
   handleChange,
   handleChangeContinent,
   handleChangeActivity,
+  handleChangeOrder,
 }) => {
   const navigate = useNavigate();
 
@@ -62,6 +63,14 @@ const Form = ({
           activities.map((activity) => (
             <option value={activity}>{activity}</option>
           ))}
+      </select>
+
+      <select id="ordered" onChange={handleChangeOrder}>
+        <option value="-">Order</option>
+        <option value="az name">A - Z</option>
+        <option value="za name">Z - A</option>
+        <option value="lower population">Population (-)</option>
+        <option value="higher population">Population (+)</option>
       </select>
     </div>
   );

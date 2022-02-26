@@ -57,12 +57,21 @@ export const searchCountry = (name) => {
   };
 };
 
-export const getContinent = (continent = '') => {
+export const getContinent = (continent = '', order = '') => {
   return (dispatch) => {
     dispatch(startLoading());
     fetch(`http://localhost:3001/api/countries?continent=${continent}`)
       .then((response) => response.json())
       .then((result) => {
+        if (order === 'az name') {
+          result = result.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (order === 'za name') {
+          result = result.sort((a, b) => b.name.localeCompare(a.name));
+        } else if (order === 'higher population') {
+          result = result.sort((a, b) => b.population - a.population);
+        } else if (order === 'lower population') {
+          result = result.sort((a, b) => a.population - b.population);
+        }
         dispatch({
           type: types.countriesGetContinent,
           payload: result,
@@ -80,6 +89,21 @@ export const getCountriesActivities = (activity = '') => {
       .then((result) => {
         dispatch({
           type: types.countriesGetActivities,
+          payload: result,
+        });
+        dispatch(finishLoading());
+      });
+  };
+};
+
+export const getCountriesOrdered = (order, param) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+    fetch(`http://localhost:3001/api/countries?order=${order}&param=${param}`)
+      .then((response) => response.json())
+      .then((result) => {
+        dispatch({
+          type: types.countriesGetCountriesOrdered,
           payload: result,
         });
         dispatch(finishLoading());
