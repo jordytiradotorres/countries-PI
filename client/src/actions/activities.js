@@ -2,7 +2,8 @@ import { types } from '../types/types';
 
 export const addActivity = (activity) => {
   return (dispatch) => {
-    fetch('http://localhost:3001/api/activity', {
+    // fetch('http://localhost:3001/api/activity', {
+    fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`, {
       method: 'POST',
       body: JSON.stringify(activity),
       mode: 'cors',
@@ -23,7 +24,8 @@ export const addActivity = (activity) => {
 
 export const getActivities = () => {
   return (dispatch) => {
-    return fetch('http://localhost:3001/api/activity')
+    // fetch('http://localhost:3001/api/activity')
+    fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`)
       .then((response) => response.json())
       .then((result) =>
         dispatch({

@@ -4,7 +4,8 @@ import { finishLoading, removeError, setError, startLoading } from './ui';
 export const getCountries = () => {
   return function (dispatch) {
     dispatch(startLoading());
-    return fetch('http://localhost:3001/api/countries')
+    // fetch('http://localhost:3001/api/countries')
+    fetch(`${process.env.REACT_APP_COUNTRIES_URL}`)
       .then((response) => response.json())
       .then((result) => {
         dispatch({
@@ -19,7 +20,8 @@ export const getCountries = () => {
 export const getCountryId = (id) => {
   return (dispatch) => {
     dispatch(startLoading());
-    return fetch(`http://localhost:3001/api/countries/${id}`)
+    // fetch(`http://localhost:3001/api/countries/${id}`)
+    fetch(`${process.env.REACT_APP_COUNTRIES_URL}/${id}`)
       .then((response) => response.json())
       .then((result) => {
         dispatch({
@@ -34,7 +36,8 @@ export const getCountryId = (id) => {
 export const searchCountry = (name) => {
   return (dispatch) => {
     dispatch(startLoading());
-    fetch(`http://localhost:3001/api/countries?name=${name}`)
+    // fetch(`http://localhost:3001/api/countries?name=${name}`)
+    fetch(`${process.env.REACT_APP_COUNTRIES_URL}?name=${name}`)
       .then((response) => response.json())
       .then((result) => {
         dispatch({
@@ -60,7 +63,8 @@ export const searchCountry = (name) => {
 export const getContinent = (continent = '', order = '') => {
   return (dispatch) => {
     dispatch(startLoading());
-    fetch(`http://localhost:3001/api/countries?continent=${continent}`)
+    // fetch(`http://localhost:3001/api/countries?continent=${continent}`)
+    fetch(`${process.env.REACT_APP_COUNTRIES_URL}?continent=${continent}`)
       .then((response) => response.json())
       .then((result) => {
         if (order === 'az name') {
@@ -84,7 +88,8 @@ export const getContinent = (continent = '', order = '') => {
 export const getCountriesActivities = (activity = '') => {
   return (dispatch) => {
     dispatch(startLoading());
-    fetch(`http://localhost:3001/api/countries?filter=${activity}`)
+    // fetch(`http://localhost:3001/api/countries?filter=${activity}`)
+    fetch(`${process.env.REACT_APP_COUNTRIES_URL}?filter=${activity}`)
       .then((response) => response.json())
       .then((result) => {
         dispatch({
@@ -99,7 +104,10 @@ export const getCountriesActivities = (activity = '') => {
 export const getCountriesOrdered = (order, param) => {
   return (dispatch) => {
     dispatch(startLoading());
-    fetch(`http://localhost:3001/api/countries?order=${order}&param=${param}`)
+    // fetch(`http://localhost:3001/api/countries?order=${order}&param=${param}`)
+    fetch(
+      `${process.env.REACT_APP_COUNTRIES_URL}?order=${order}&param=${param}`
+    )
       .then((response) => response.json())
       .then((result) => {
         dispatch({

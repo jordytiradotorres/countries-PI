@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import CountriesApp from './CountriesApp';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 ReactDOM.render(
   <React.StrictMode>
     <CountriesApp />
