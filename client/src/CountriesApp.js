@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import AppRouter from './routes/AppRouter';
 import store from './store/store';
-import './styles/app.scss';
+import './styles/styles.scss';
 
 function CountriesApp() {
   return (

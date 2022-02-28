@@ -49,14 +49,6 @@ const Form = ({
         <option value="oceania">Oceanía</option>
       </select>
 
-      <button
-        className="btn-new-activity"
-        type="button"
-        onClick={handleSendPageActivity}
-      >
-        New Activity
-      </button>
-
       <select id="activities" onChange={handleChangeActivity}>
         <option value="-">Filter by activities</option>
         {activities.length > 0 &&
@@ -72,6 +64,14 @@ const Form = ({
         <option value="lower population">Population (-)</option>
         <option value="higher population">Population (+)</option>
       </select>
+
+      <button
+        className="btn-new-activity"
+        type="button"
+        onClick={handleSendPageActivity}
+      >
+        New Activity
+      </button>
     </div>
   );
 };

@@ -2,10 +2,13 @@
   display: grid;
   // grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
   grid-template-columns: minmax(220px, 250px);
-  gap: 2rem;
+  gap: 1.5rem;
   background-color: $very-dark-blue;
   justify-content: center;
 
+  @include mq(520px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
   @include mq(medium) {
     grid-template-columns: repeat(3, 1fr);
   }

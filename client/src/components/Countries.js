@@ -179,6 +179,10 @@ const Countries = () => {
       setCurrentPage(currentPage + 10);
     } else if (resultContinent.length > currentPage + 10) {
       setCurrentPage(currentPage + 10);
+    } else if (resultSearchCountries.length > currentPage + 10) {
+      setCurrentPage(currentPage + 10);
+    } else if (countriesWithActivities.length > currentPage + 10) {
+      setCurrentPage(currentPage + 10);
     }
   };
 
@@ -217,6 +221,21 @@ const Countries = () => {
               Next
             </button>
           )}
+
+        {resultSearchCountries.length > 0 &&
+          resultSearchCountries.length > currentPage + 10 && (
+            <button className="btn-next" onClick={handleNext}>
+              Next
+            </button>
+          )}
+
+        {countriesWithActivities.length > 0 &&
+          countriesWithActivities.length > currentPage + 10 && (
+            <button className="btn-next" onClick={handleNext}>
+              Next
+            </button>
+          )}
+
         {/* <button className="btn-next" onClick={handleNext}>
           Next
         </button> */}

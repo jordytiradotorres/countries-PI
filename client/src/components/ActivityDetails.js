@@ -2,7 +2,7 @@ import React from 'react';
 
 const ActivityDetails = ({ activity }) => {
   return (
-    <div key={activity.id}>
+    <div className="activityDetails">
       <p>
         <span>Name: </span> {activity.name}
       </p>
