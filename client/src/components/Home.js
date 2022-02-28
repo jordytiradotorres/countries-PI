@@ -10,6 +10,8 @@ const Home = () => {
 
   return (
     <div className="home">
+      <h1 className="home__title">Countries App</h1>
+
       <button className="home__button" onClick={handleClick}>
         Go
       </button>

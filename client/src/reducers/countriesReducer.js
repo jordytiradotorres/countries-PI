@@ -16,6 +16,8 @@ export const countriesReducer = (state = initialState, action) => {
         allCountries: action.payload,
         //
         resultContinent: [],
+        // last modified
+        countriesWithActivities: [],
       };
 
     case types.countriesGetCountryId:
@@ -52,6 +54,8 @@ export const countriesReducer = (state = initialState, action) => {
         countriesWithActivities: action.payload,
         resultContinent: [],
         resultSearchCountries: [],
+        // last modified
+        allCountries: [],
       };
 
     case types.countriesGetCountriesOrdered:
