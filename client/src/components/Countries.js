@@ -105,6 +105,7 @@ const Countries = () => {
       default:
         break;
     }
+    // eslint-disable-next-line
   }, [dispatch, order]);
 
   const handleChange = (e) => {
