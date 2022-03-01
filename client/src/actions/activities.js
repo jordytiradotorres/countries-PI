@@ -1,14 +1,14 @@
 import { types } from '../types/types';
 import { removeError } from './ui';
 
-const URL_COUNTRIES = 'https://henry-countries-app.herokuapp.com/api/activity';
+const URL_ACTIVITIES = 'https://henry-countries-app.herokuapp.com/api/activity';
 
 export const addActivity = (activity) => {
   return (dispatch) => {
     dispatch(removeError());
-    // fetch('http://localhost:3001/api/activity', {
-    // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`, {
-    fetch(`${URL_COUNTRIES}`, {
+    fetch('http://localhost:3001/api/activity', {
+      // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`, {
+      // fetch(`${URL_ACTIVITIES}`, {
       method: 'POST',
       body: JSON.stringify(activity),
       mode: 'cors',
@@ -30,9 +30,9 @@ export const addActivity = (activity) => {
 export const getActivities = () => {
   return (dispatch) => {
     dispatch(removeError());
-    // fetch('http://localhost:3001/api/activity')
-    // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`)
-    fetch(`${URL_COUNTRIES}`)
+    fetch('http://localhost:3001/api/activity')
+      // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`)
+      // fetch(`${URL_ACTIVITIES}`)
       .then((response) => response.json())
       .then((result) =>
         dispatch({
@@ -40,5 +40,11 @@ export const getActivities = () => {
           payload: result,
         })
       );
+  };
+};
+
+export const clearActivities = () => {
+  return {
+    type: types.activityClearActivities,
   };
 };

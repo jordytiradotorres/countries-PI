@@ -182,14 +182,6 @@ router.get('/activity', (req, res, next) => {
     .then((activities) => res.json(activities))
     .catch((err) => next(err));
 });
-// router.get('/activity', async (req, res) => {
-//   try {
-//     let activities = await Activity.findAll();
-//     res.status(200).send(activities);
-//   } catch (error) {
-//     res.status(500).send('Error');
-//   }
-// });
 
 function AddNewActivity(name, difficulty, duration, season, countryId) {
   return Activity.create({
