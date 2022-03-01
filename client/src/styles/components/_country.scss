@@ -5,6 +5,7 @@
 
   button {
     @include btn();
+    font-weight: 800;
   }
 
   &__description {

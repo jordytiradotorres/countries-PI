@@ -17,10 +17,20 @@ const CardId = () => {
     dispatch(getCountryId(id));
   }, [dispatch, id]);
 
-  console.log(countryId);
-
   const handleBack = () => {
     return navigate(-1);
+  };
+
+  const capitalWithoutKeys = (capital = '') => {
+    let result = '';
+
+    for (let i = 0; i < capital.length; i++) {
+      if (capital[i] !== '{' && capital[i] !== '}') {
+        result += capital[i];
+      }
+    }
+
+    return result;
   };
 
   return loading ? (
@@ -39,7 +49,7 @@ const CardId = () => {
             <span>Codigo: </span> {countryId.id}
           </p>
           <p>
-            <span>Capital: </span> {countryId.capital}
+            <span>Capital: </span> {capitalWithoutKeys(countryId.capital)}
           </p>
           <p>
             <span>Subregion: </span> {countryId.subregion}

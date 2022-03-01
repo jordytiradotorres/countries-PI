@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getActivities } from '../actions/activities';
+import { clearActivities, getActivities } from '../actions/activities';
 
 const Form = ({
   handleSubmit,
@@ -24,8 +24,19 @@ const Form = ({
     navigate('/activity');
   };
 
+  const handleClearActivities = () => {
+    dispatch(clearActivities());
+    alert('deleted activities');
+  };
+
   return (
     <div className="container-forms">
+      {activities.length > 0 && (
+        <button className="clearActivities" onClick={handleClearActivities}>
+          Clear Activities
+        </button>
+      )}
+
       <form onSubmit={handleSubmit} className="formCountry">
         <div className="formCountry__searchCountry">
           <input

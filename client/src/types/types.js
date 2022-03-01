@@ -11,4 +11,5 @@ export const types = {
   countriesGetCountriesOrdered: '[COUNTRIES] Get Countries Ordered',
   activityAddActivity: '[ACTIVITY] Add Activity',
   activityGetActivities: '[ACTIVITY] Get Activities',
+  activityClearActivities: '[ACTIVITY] Clear Activities',
 };
