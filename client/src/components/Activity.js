@@ -89,8 +89,16 @@ const Activity = () => {
     return true;
   };
 
+  const handleClickBack = () => {
+    return navigate(-1);
+  };
+
   return (
     <div className="activity">
+      <button className="activity__btnBack button" onClick={handleClickBack}>
+        Back
+      </button>
+
       <h2 className="activity__title">Add New Activity</h2>
 
       {msgError && <p className="error">{msgError}</p>}
@@ -142,6 +150,9 @@ const Activity = () => {
 
         <div>
           <p>Select countries related to this activity:</p>
+          <p className="activity__warning">
+            Hold shift to select multiple countries
+          </p>
           <select
             multiple
             id="countries"

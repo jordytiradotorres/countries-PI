@@ -20,7 +20,7 @@ const CardId = () => {
   console.log(countryId);
 
   const handleBack = () => {
-    navigate(-1);
+    return navigate(-1);
   };
 
   return loading ? (

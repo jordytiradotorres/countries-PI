@@ -1,5 +1,5 @@
 import { types } from '../types/types';
-import { finishLoading, removeError, setError, startLoading } from './ui';
+import { finishLoading, removeError, startLoading } from './ui';
 
 const URL_COUNTRIES = 'https://henry-countries-app.herokuapp.com/api/countries';
 
@@ -42,6 +42,7 @@ export const searchCountry = (name) => {
     dispatch(startLoading());
     // fetch(`http://localhost:3001/api/countries?name=${name}`)
     // fetch(`${process.env.REACT_APP_COUNTRIES_URL}?name=${name}`)
+
     fetch(`${URL_COUNTRIES}?name=${name}`)
       .then((response) => response.json())
       .then((result) => {
@@ -49,17 +50,13 @@ export const searchCountry = (name) => {
           type: types.countriesSearchCountry,
           payload: result,
         });
-        dispatch(finishLoading());
         dispatch(removeError());
+        dispatch(finishLoading());
       })
       .catch((error) => {
         console.log(error.message);
-        dispatch(
-          setError({
-            countryNotFound: 'The country was not found',
-          })
-        );
         dispatch(finishLoading());
+        alert('The country was not found');
         return error;
       });
   };

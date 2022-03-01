@@ -6,8 +6,22 @@
   align-items: center;
   min-height: 100vh;
 
+  &__btnBack.button {
+    @include btn();
+    margin: 4rem 0;
+    margin-left: 1.5rem;
+    align-self: flex-start;
+    font-weight: 800;
+
+    @include mq(medium) {
+      margin-left: 7rem;
+    }
+  }
+
   &__title {
-    margin-bottom: 1.5rem;
+    @include mq(medium) {
+      margin-bottom: 1.5rem;
+    }
   }
 
   select#season option {
@@ -16,7 +30,7 @@
 
   form {
     width: 400px;
-    padding: 2.5rem;
+    padding: 1.5rem 2.5rem;
 
     @include mq(medium) {
       padding: 0;
@@ -94,13 +108,31 @@
     }
   }
 
+  &__warning {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: wheat;
+    display: none;
+
+    @include mq(medium) {
+      display: block;
+    }
+  }
+
   .error {
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
     color: tomato;
     background-color: lighten($very-dark-blue, 8);
     padding: 1rem 0;
     width: 400px;
     text-align: center;
     border-radius: 0.2rem;
+
+    @include mq(medium) {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
   }
 }

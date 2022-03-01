@@ -1,9 +1,11 @@
 import { types } from '../types/types';
+import { removeError } from './ui';
 
 const URL_COUNTRIES = 'https://henry-countries-app.herokuapp.com/api/activity';
 
 export const addActivity = (activity) => {
   return (dispatch) => {
+    dispatch(removeError());
     // fetch('http://localhost:3001/api/activity', {
     // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`, {
     fetch(`${URL_COUNTRIES}`, {
@@ -27,6 +29,7 @@ export const addActivity = (activity) => {
 
 export const getActivities = () => {
   return (dispatch) => {
+    dispatch(removeError());
     // fetch('http://localhost:3001/api/activity')
     // fetch(`${process.env.REACT_APP_ACTIVITIES_URL}`)
     fetch(`${URL_COUNTRIES}`)

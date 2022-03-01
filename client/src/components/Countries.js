@@ -23,12 +23,6 @@ const Countries = () => {
     countriesWithActivities,
   } = useSelector((state) => state.countries);
 
-  // console.log('cwa', countriesWithActivities);
-  // const { activities } = useSelector((state) => state.activities);
-
-  // console.log(allCountries);
-  // console.log('search', resultSearchCountries);
-
   const [currentPage, setCurrentPage] = useState(0);
   const [formValues, setFormValues] = useState({
     country: '',
@@ -136,6 +130,9 @@ const Countries = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(searchCountry(country));
+    setFormValues({
+      country: '',
+    });
   };
 
   const homeCountries = () => {
