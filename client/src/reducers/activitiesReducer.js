@@ -20,7 +20,7 @@ export const activitiesReducer = (state = initialState, action) => {
     case types.activityClearActivities:
       return {
         ...state,
-        activities: [],
+        activities: action.payload,
       };
 
     default:
