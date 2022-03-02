@@ -27,6 +27,7 @@ const Form = ({
   const handleClearActivities = () => {
     dispatch(clearActivities());
     alert('deleted activities');
+    navigate('/countries');
   };
 
   return (
@@ -64,7 +65,9 @@ const Form = ({
         <option value="-">Filter by activities</option>
         {activities.length > 0 &&
           activities.map((activity) => (
-            <option value={activity}>{activity}</option>
+            <option key={activity} value={activity}>
+              {activity}
+            </option>
           ))}
       </select>
 

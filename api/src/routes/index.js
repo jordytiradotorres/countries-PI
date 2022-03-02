@@ -200,4 +200,13 @@ router.post('/activity', (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.delete('/activity', async (req, res) => {
+  await Activity.destroy({
+    where: {},
+    truncate: true,
+    truncate: country_activity,
+  });
+  res.json([]);
+});
+
 module.exports = router;
