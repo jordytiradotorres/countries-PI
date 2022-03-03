@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearActivities, getActivities } from '../actions/activities';
+import { getCountries } from '../actions/countries';
 
 const Form = ({
   handleSubmit,
@@ -10,6 +11,9 @@ const Form = ({
   handleChangeContinent,
   handleChangeActivity,
   handleChangeOrder,
+  continent,
+  activity,
+  order,
 }) => {
   const navigate = useNavigate();
 
@@ -27,7 +31,7 @@ const Form = ({
   const handleClearActivities = () => {
     dispatch(clearActivities());
     alert('deleted activities');
-    navigate('/countries');
+    dispatch(getCountries());
   };
 
   return (
@@ -51,8 +55,8 @@ const Form = ({
         <button className="formCountry__buttonCountry">Search</button>
       </form>
 
-      <select id="continent" onChange={handleChangeContinent}>
-        <option value="-">Filter by continent</option>
+      <select id="continent" value={continent} onChange={handleChangeContinent}>
+        <option value="">Filter by continent</option>
         <option value="africa">África</option>
         <option value="america">Américas</option>
         <option value="antarctic">Antarctic</option>
@@ -61,8 +65,8 @@ const Form = ({
         <option value="oceania">Oceanía</option>
       </select>
 
-      <select id="activities" onChange={handleChangeActivity}>
-        <option value="-">Filter by activities</option>
+      <select id="activities" value={activity} onChange={handleChangeActivity}>
+        <option value="">Filter by activities</option>
         {activities.length > 0 &&
           activities.map((activity) => (
             <option key={activity} value={activity}>
@@ -71,8 +75,8 @@ const Form = ({
           ))}
       </select>
 
-      <select id="ordered" onChange={handleChangeOrder}>
-        <option value="-">Order</option>
+      <select id="ordered" value={order} onChange={handleChangeOrder}>
+        <option value="">Order</option>
         <option value="az name">A - Z</option>
         <option value="za name">Z - A</option>
         <option value="lower population">Population (-)</option>

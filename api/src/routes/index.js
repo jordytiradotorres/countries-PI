@@ -10,12 +10,7 @@ let id = 1;
 //Traemos las tablas de db
 const { Country, Activity, country_activity } = require('../db.js');
 
-// const Countries = require('./countries.js');
-
 const router = Router();
-
-// Configurar los routers
-// router.use('/countries', Countries);
 
 // Busco la data de la API
 const countriesApi = async () => {
@@ -37,10 +32,6 @@ const countriesApi = async () => {
 };
 
 router.get('/countries', async (req, res, next) => {
-  // Se traen todos los paises desde la API a la DB para utilizarlos desde ahi
-  // Se almacenan solo los datos necesarios para la ruta principal
-  // Se obtiene un listado de los paises
-
   // Guardo en una constante lo que obtengo de la api
   const countries = await countriesApi();
 
@@ -112,8 +103,7 @@ router.get('/countries', async (req, res, next) => {
     let countryName = await Country.findAll({
       where: {
         name: {
-          // Operador que busca coincidencias y no es case sensitive
-          //Si solo pongo queryName me toma la busqueda exacta
+          // no es sensitive
           [Sequelize.Op.iLike]: `%${queryName}%`,
         },
       },
@@ -125,15 +115,13 @@ router.get('/countries', async (req, res, next) => {
     let countryContinent = await Country.findAll({
       where: {
         continent: {
-          // Operador que busca coincidencias y no es case sensitive
-          //Si solo pongo queryName me toma la busqueda exacta
           [Sequelize.Op.iLike]: `%${queryContinent}%`,
         },
       },
     });
     countryContinent.length
       ? res.status(200).send(countryContinent)
-      : res.status(500).send('no hay paises en ese continente');
+      : res.status(500).send('there are no countries in that continent');
   } else if (queryActivity) {
     FilterCountries(queryActivity)
       .then((countries) => res.json(countries))
@@ -153,9 +141,7 @@ router.get('/countries', async (req, res, next) => {
 });
 
 router.get('/countries/:id', async (req, res) => {
-  // Obtener el detalle de un país en particular
-  // Debe traer solo los datos pedidos en la ruta de detalle de país
-  // Incluir los datos de las actividades turísticas correspondientes
+  // Incluyo los datos de las actividades turísticas correspondientes
 
   const countryId = req.params.id;
 
@@ -168,21 +154,6 @@ router.get('/countries/:id', async (req, res) => {
   res.status(200).send(countryById);
 });
 
-// activities
-function GetActivities() {
-  let activities = [];
-  return Activity.findAll().then((response) => {
-    response.forEach((ac) => activities.push(ac.name));
-    return activities;
-  });
-}
-
-router.get('/activity', (req, res, next) => {
-  GetActivities()
-    .then((activities) => res.json(activities))
-    .catch((err) => next(err));
-});
-
 function AddNewActivity(name, difficulty, duration, season, countryId) {
   return Activity.create({
     id: id++,
@@ -193,20 +164,47 @@ function AddNewActivity(name, difficulty, duration, season, countryId) {
   }).then((result) => result.addCountries(countryId));
 }
 
-router.post('/activity', (req, res, next) => {
+router.post('/activity', async (req, res, next) => {
   const { name, difficulty, duration, season, countryId } = req.body;
-  AddNewActivity(name, difficulty, duration, season, countryId)
-    .then(() => res.json({ message: 'Activity created' }))
-    .catch((err) => next(err));
+
+  try {
+    await AddNewActivity(name, difficulty, duration, season, countryId);
+    res.json({ message: 'Activity created' });
+  } catch (err) {
+    res.json({ message: 'Could not create activity' });
+  }
 });
 
-router.delete('/activity', async (req, res) => {
+// activities
+function GetActivities() {
+  let activities = [];
+  return Activity.findAll().then((response) => {
+    response.forEach((ac) => activities.push(ac.name));
+    return activities;
+  });
+}
+
+router.get('/activity', async (req, res, next) => {
+  // GetActivities()
+  //   .then((activities) => res.json(activities))
+  //   .catch((err) => next(err));
+  const activities = await GetActivities();
+
+  if (activities.length) {
+    return res.json(activities);
+  } else {
+    return res.send([]);
+  }
+});
+
+router.delete('/activity', async (req, res, next) => {
   await Activity.destroy({
     where: {},
     truncate: true,
     truncate: country_activity,
   });
-  res.json([]);
+
+  res.status(200).json({ message: 'Deleted activities' });
 });
 
 module.exports = router;

@@ -70,18 +70,12 @@ export const getContinent = (continent = '', order = '') => {
     fetch(`${URL_COUNTRIES}?continent=${continent}`)
       .then((response) => response.json())
       .then((result) => {
-        if (order === 'az name') {
-          result = result.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (order === 'za name') {
-          result = result.sort((a, b) => b.name.localeCompare(a.name));
-        } else if (order === 'higher population') {
-          result = result.sort((a, b) => b.population - a.population);
-        } else if (order === 'lower population') {
-          result = result.sort((a, b) => a.population - b.population);
-        }
         dispatch({
           type: types.countriesGetContinent,
-          payload: result,
+          payload: {
+            result,
+            order,
+          },
         });
         dispatch(finishLoading());
       });

@@ -46,7 +46,7 @@ export const getActivities = () => {
 export const clearActivities = () => {
   return (dispatch) => {
     // fetch('http://localhost:3001/api/activity', {
-    //   method: 'DELETE',
+    // method: 'DELETE',
     // })
     fetch(`${URL_ACTIVITIES}`, { method: 'DELETE' })
       .then((response) => response.json())

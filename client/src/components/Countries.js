@@ -42,8 +42,6 @@ const Countries = () => {
   const { activity } = selectActivity;
   const { order } = selectOrder;
 
-  console.log('current page', currentPage);
-
   useEffect(() => {
     dispatch(getCountries());
     setCurrentPage(0);
@@ -65,7 +63,6 @@ const Countries = () => {
     switch (op) {
       case 'az name':
         if (resultContinent.length > 0) {
-          console.log(resultContinent);
           dispatch(getContinent(continent, order));
         } else {
           dispatch(getCountriesOrdered('ASC', 'name'));
@@ -73,7 +70,6 @@ const Countries = () => {
         break;
       case 'za name':
         if (resultContinent.length > 0) {
-          console.log(resultContinent);
           dispatch(getContinent(continent, order));
         } else {
           dispatch(getCountriesOrdered('DESC', 'name'));
@@ -81,7 +77,6 @@ const Countries = () => {
         break;
       case 'higher population':
         if (resultContinent.length > 0) {
-          console.log(resultContinent);
           dispatch(getContinent(continent, order));
         } else {
           dispatch(getCountriesOrdered('DESC', 'population'));
@@ -89,7 +84,6 @@ const Countries = () => {
         break;
       case 'lower population':
         if (resultContinent.length > 0) {
-          console.log(resultContinent);
           dispatch(getContinent(continent, order));
         } else {
           dispatch(getCountriesOrdered('ASC', 'population'));
@@ -110,21 +104,47 @@ const Countries = () => {
   };
 
   const handleChangeContinent = (e) => {
+    setSelectActivity({
+      activity: '',
+    });
+    setSelectOrder({
+      order: '',
+    });
+
     setSelectValue({
       continent: e.target.value,
     });
+    if (continent === '') {
+      return;
+    }
   };
 
   const handleChangeActivity = (e) => {
+    setSelectOrder({
+      order: '',
+    });
+    setSelectValue({
+      continent: '',
+    });
+
     setSelectActivity({
       activity: e.target.value,
     });
+    if (activity === '') {
+      return;
+    }
   };
 
   const handleChangeOrder = (e) => {
+    setSelectActivity({
+      activity: '',
+    });
     setSelectOrder({
       order: e.target.value,
     });
+    if (order === '') {
+      return;
+    }
   };
 
   const handleSubmit = (e) => {
@@ -132,6 +152,15 @@ const Countries = () => {
     dispatch(searchCountry(country));
     setFormValues({
       country: '',
+    });
+    setSelectValue({
+      continent: '',
+    });
+    setSelectActivity({
+      activity: '',
+    });
+    setSelectOrder({
+      order: '',
     });
   };
 
@@ -195,6 +224,9 @@ const Countries = () => {
         handleChangeContinent={handleChangeContinent}
         handleChangeActivity={handleChangeActivity}
         handleChangeOrder={handleChangeOrder}
+        continent={continent}
+        activity={activity}
+        order={order}
       />
 
       <div className="grid-card">

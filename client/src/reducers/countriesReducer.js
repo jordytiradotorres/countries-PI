@@ -4,8 +4,8 @@ const initialState = {
   allCountries: [],
   countryId: [],
   resultSearchCountries: [],
-  resultContinent: [],
   countriesWithActivities: [],
+  resultContinent: [],
 };
 
 export const countriesReducer = (state = initialState, action) => {
@@ -14,9 +14,7 @@ export const countriesReducer = (state = initialState, action) => {
       return {
         ...state,
         allCountries: action.payload,
-        //
         resultContinent: [],
-        // last modified
         countriesWithActivities: [],
       };
 
@@ -24,7 +22,6 @@ export const countriesReducer = (state = initialState, action) => {
       return {
         ...state,
         countryId: action.payload,
-        //
       };
 
     case types.countriesSearchCountry:
@@ -38,12 +35,24 @@ export const countriesReducer = (state = initialState, action) => {
       };
 
     case types.countriesGetContinent:
+      let result = action.payload.result;
+      let order = action.payload.order;
+
+      if (order === 'az name') {
+        result = result.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (order === 'za name') {
+        result = result.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (order === 'higher population') {
+        result = result.sort((a, b) => b.population - a.population);
+      } else if (order === 'lower population') {
+        result = result.sort((a, b) => a.population - b.population);
+      }
+
       return {
         ...state,
-        resultContinent: action.payload,
-        resultSearchCountries: [],
+        resultContinent: result,
         countriesWithActivities: [],
-        //
+        resultSearchCountries: [],
         allCountries: [],
         countryId: [],
       };
@@ -54,7 +63,6 @@ export const countriesReducer = (state = initialState, action) => {
         countriesWithActivities: action.payload,
         resultContinent: [],
         resultSearchCountries: [],
-        // last modified
         allCountries: [],
       };
 
